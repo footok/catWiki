@@ -1,35 +1,14 @@
-import { useState, useEffect } from "react";
 import Select from 'react-select';
 
-import * as api from '../api'
 import "../styles/Navbar.css";
 import logo from "../images/logo128.png";
 
-const Navbar = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [breedOptions, setBreedOptions] = useState([{value: '', label: ''}]);
+const Navbar = ({ breedOptions, allBreeds, setSelectedBreedId }) => {
 
-  const handleSubmit = async () => {
+  const handleChange = async (selectedOption) => {
+    const breedId = selectedOption.value
+    setSelectedBreedId(breedId)
   }
-
-  useEffect(() => {
-    const fetchBreeds = async () => {
-      try {
-        const response = await api.fetchBreeds();
-        const breedOptions = response.data.map(breed => (
-          {
-            value: breed.id,
-            label: breed.name
-          }
-        ))
-        setBreedOptions(breedOptions);
-      } catch (error) {
-        console.error('An error occurred while fetching data:', error);
-      }
-    };
-
-    fetchBreeds();
-  }, []);
 
   return (
     <nav className="nav-container">
@@ -40,6 +19,7 @@ const Navbar = () => {
         <Select 
           className="search-bar" 
           options={breedOptions} 
+          onChange={handleChange}
         />
       </div>
     </nav>
