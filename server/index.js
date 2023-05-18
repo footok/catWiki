@@ -2,11 +2,15 @@ import express from 'express';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
 
+import catRouter from './routes/cats.js'
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const PORT = process.env.PORT || 3001;
 const app = express();
+
+app.use('/cats', catRouter);
 
 // Have Node serve the files for our built React app
 app.use(express.static(resolve(__dirname, '../client/build')));
