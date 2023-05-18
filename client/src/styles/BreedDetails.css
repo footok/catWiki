@@ -1,3 +1,37 @@
-#breed-details {
+.breed-details-container {
+  width: 1280px;
   color: white;
+  margin: auto;
+}
+
+.cat-details-container {
+  display: flex;
+  margin-bottom: 50px;
+
+  .cat-image {
+    margin: auto;
+  }
+
+  .main-image {
+    border-radius: 50%;
+    width: 400px;
+    height: 400px;
+  }
+}
+
+li.detail-info {
+  margin: 15px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  margin-top: 20px;
+  padding: 10px;
+
+  .sub-image {
+    margin: 10px;
+    width: 300px;
+    height: 300px;
+  }
 }

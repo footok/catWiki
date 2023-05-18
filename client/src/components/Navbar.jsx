@@ -17,6 +17,7 @@ const Navbar = ({ breedOptions, allBreeds, setSelectedBreedId }) => {
       </div>
       <div className="search-bar-container">
         <Select 
+          placeholder="Search breeds here.."
           className="search-bar" 
           options={breedOptions} 
           onChange={handleChange}
