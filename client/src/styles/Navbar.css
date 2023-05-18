@@ -30,20 +30,5 @@
   outline: none;
   width: 550px;
   height: 45px;
-  margin: auto;
-  border: 1px solid white;
-  border-radius: 10px;
-  padding-left: 20px;
+  color: black;
 }
-
-.btn {
-  background-color: #19c75a;
-  border: none;
-  font-weight: 600;
-  width: 80px;
-  height: 50px;
-  color: white;
-  border-radius: 5px;
-  margin: auto 10px;
-}
-
