@@ -1,0 +1,49 @@
+.nav-container {
+  width: 1280px;
+  height: 60px;
+  margin: 44px auto 22px;
+  color: white;
+  display: flex;
+  vertical-align: middle;
+}
+
+.logo-container {
+  margin: auto 0;
+}
+
+.nav-logo {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.search-bar-container {
+  display: flex;
+  width: 500px;
+  height: 100%;
+  margin: auto;
+  align-items: center;
+
+}
+
+.search-bar {
+  outline: none;
+  width: 550px;
+  height: 45px;
+  margin: auto;
+  border: 1px solid white;
+  border-radius: 10px;
+  padding-left: 20px;
+}
+
+.btn {
+  background-color: #19c75a;
+  border: none;
+  font-weight: 600;
+  width: 80px;
+  height: 50px;
+  color: white;
+  border-radius: 5px;
+  margin: auto 10px;
+}
+
