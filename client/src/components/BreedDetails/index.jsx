@@ -7,12 +7,14 @@ import * as api from '../../api'
 
 const BreedDetails = ({ allBreeds, selectedBreedId }) => {
   const [images, setImages] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
 
   useEffect(() => {
     const fetchBreedImagesById = async () => {
       try {
         const response = await api.fetchBreedImagesById(selectedBreedId);
+        setIsLoading(false)
         setImages(response.data.map(image => image.url))
       } catch (error) {
         console.error('An error occurred while fetching data:', error);
@@ -29,9 +31,9 @@ const BreedDetails = ({ allBreeds, selectedBreedId }) => {
     <div className="breed-details-container" data-testid='breed-details'>
       <h1>Details</h1>
       <h2>Breed: {name}</h2>
-      <Details breedDetails={breedDetails} image={images[0]} />
+      <Details breedDetails={breedDetails} image={images[0]} isLoading={isLoading} />
       <h2>Other Images of {name}</h2>
-      <Images images={images.slice(1)} />
+      {isLoading ? <h3>Loading images..</h3> : <Images images={images.slice(1)} />}
     </div>
   )
 }

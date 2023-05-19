@@ -1,6 +1,6 @@
 import { convertDigitToStar } from "../../lib/breedDetails";
 
-const Details = ({ breedDetails, image }) => {
+const Details = ({ breedDetails, image, isLoading }) => {
   const {
     name,
     temperament,
@@ -56,7 +56,7 @@ const Details = ({ breedDetails, image }) => {
         </ul>
       </div>
       <div className="cat-image">
-        <img src={image} className="main-image" alt={name} />
+        {isLoading ? <h3>Loading image..</h3> : <img src={image} className="main-image" alt={name} />}
       </div>
     </div>
   )
