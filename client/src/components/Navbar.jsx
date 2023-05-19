@@ -3,7 +3,7 @@ import Select from 'react-select';
 import "../styles/Navbar.css";
 import logo from "../images/logo128.png";
 
-const Navbar = ({ breedOptions, allBreeds, setSelectedBreedId }) => {
+const Navbar = ({ breedOptions, setSelectedBreedId }) => {
 
   const handleChange = async (selectedOption) => {
     const breedId = selectedOption.value
@@ -11,9 +11,9 @@ const Navbar = ({ breedOptions, allBreeds, setSelectedBreedId }) => {
   }
 
   return (
-    <nav className="nav-container">
+    <nav className="nav-container" data-testid="navbar">
       <div className="logo-container">
-        <img className="nav-logo" src={logo} alt="logo" />
+        <a href='/'><img className="nav-logo" src={logo} alt="logo" /></a>
       </div>
       <div className="search-bar-container">
         <Select 

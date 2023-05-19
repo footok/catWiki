@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import * as api from './api'
+import { fetchBreeds } from './api'
 import { Navbar, BreedDetails } from "./components";
 import "./App.css";
 
@@ -10,9 +10,9 @@ const App = () => {
   const [selectedBreedId, setSelectedBreedId] = useState();
 
   useEffect(() => {
-    const fetchBreeds = async () => {
+    const getBreeds = async () => {
       try {
-        const response = await api.fetchBreeds();
+        const response = await fetchBreeds();
         setAllBreeds(response.data)
         const breedOptions = response.data.map(breed => (
           {
@@ -26,14 +26,13 @@ const App = () => {
       }
     };
 
-    fetchBreeds();
+    getBreeds();
   }, []);
 
   return (
     <div className="App">
       <Navbar
         breedOptions={breedOptions}
-        allBreeds={allBreeds}
         setSelectedBreedId={setSelectedBreedId}
       />
       {selectedBreedId &&
