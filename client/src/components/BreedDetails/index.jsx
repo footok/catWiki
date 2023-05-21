@@ -3,25 +3,25 @@ import { useState, useEffect } from "react";
 import "../../styles/BreedDetails.css";
 import Details from "./Details";
 import Images from "./Images";
-import * as api from '../../api'
+import { fetchBreedImagesById } from '../../api';
 
 const BreedDetails = ({ allBreeds, selectedBreedId }) => {
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-
   useEffect(() => {
-    const fetchBreedImagesById = async () => {
+    setIsLoading(true)
+    const fetchImages = async () => {
       try {
-        const response = await api.fetchBreedImagesById(selectedBreedId);
+        const response = await fetchBreedImagesById(selectedBreedId);
         setIsLoading(false)
         setImages(response.data.map(image => image.url))
       } catch (error) {
-        console.error('An error occurred while fetching data:', error);
+        console.error('An error occurred while fetching breed images by id:', error);
       }
     };
 
-    fetchBreedImagesById();
+    fetchImages();
   }, [selectedBreedId]);
 
   const breedDetails = allBreeds.find(breed => breed.id === selectedBreedId)
@@ -31,9 +31,13 @@ const BreedDetails = ({ allBreeds, selectedBreedId }) => {
     <div className="breed-details-container" data-testid='breed-details'>
       <h1>Details</h1>
       <h2>Breed: {name}</h2>
-      <Details breedDetails={breedDetails} image={images[0]} isLoading={isLoading} />
-      <h2>Other Images of {name}</h2>
-      {isLoading ? <h3>Loading images..</h3> : <Images images={images.slice(1)} />}
+      <Details breedDetails={breedDetails} images={images} isLoading={isLoading} />
+      {images.length > 1 &&
+        <>
+          <h2>Other Images of {name}</h2>
+          {isLoading ? <h3>Loading images..</h3> : <Images images={images.slice(1)} />}
+        </>
+      }
     </div>
   )
 }
