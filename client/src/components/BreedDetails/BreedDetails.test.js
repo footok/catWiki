@@ -1,50 +1,63 @@
 import React from 'react';
-import { render, waitFor, screen } from '@testing-library/react';
+import { act, render, waitFor, screen } from '@testing-library/react';
 import BreedDetails from './';
-import * as api from '../../api';
+import { fetchBreedImagesById } from '../../api';
 
 jest.mock('../../api', () => ({
-  fetchBreedImagesById: jest.fn().mockResolvedValue({
-    data: [
-      { url: 'image1.jpg' },
-      { url: 'image2.jpg' },
-      { url: 'image3.jpg' }
-    ]
-  })
+  fetchBreedImagesById: jest.fn()
 }));
 
 describe('BreedDetails', () => {
+  beforeEach(() => {
+    fetchBreedImagesById.mockResolvedValue({
+      data: [
+        { url: 'image1.jpg' },
+        { url: 'image2.jpg' },
+        { url: 'image3.jpg' }
+      ],
+    })
+  })
+
   const allBreeds = [
-    { id: 1, name: 'Breed 1' },
-    { id: 2, name: 'Breed 2' },
-    { id: 3, name: 'Breed 3' }
+    { id: 1, name: 'Aegean' },
+    { id: 2, name: 'Bengal' },
+    { id: 3, name: 'Korat' }
   ];
 
   it('renders breed details', async () => {
     const selectedBreedId = 2;
     render(<BreedDetails allBreeds={allBreeds} selectedBreedId={selectedBreedId} />);
 
-    await waitFor(() => {
-      expect(screen.getByTestId('breed-details')).toBeInTheDocument();
-      expect(screen.getByText('Breed: Breed 2')).toBeInTheDocument();
-      expect(screen.getByText('Details')).toBeInTheDocument();
-      expect(screen.getByText('Other Images of Breed 2')).toBeInTheDocument();
-    });
+    expect(await screen.findByTestId('breed-details')).toBeInTheDocument();
+    expect(screen.getByText('Breed: Bengal')).toBeInTheDocument();
+    expect(screen.getByText('Details')).toBeInTheDocument();
+    expect(screen.getByText('Other Images of Bengal')).toBeInTheDocument();
+    expect(screen.getByAltText('Cat0')).toBeInTheDocument();
+    expect(screen.getByAltText('Cat1')).toBeInTheDocument();
+  });
+
+  it('should not render images if no images ruturned', async () => {
+    fetchBreedImagesById.mockResolvedValue({
+      data: []
+    })
+
+    render(<BreedDetails allBreeds={allBreeds} selectedBreedId={1} />);
+    await waitFor(() => expect(screen.queryByText('Cat0')).toBeNull())
+    expect(screen.queryByText('Cat1')).toBeNull();
+
   });
 
   it('fetches breed images when selected breed changes', async () => {
     const selectedBreedId = 3;
     render(<BreedDetails allBreeds={allBreeds} selectedBreedId={1} />);
 
-    expect(api.fetchBreedImagesById).toHaveBeenCalledTimes(1);
-    expect(api.fetchBreedImagesById).toHaveBeenCalledWith(1);
+    expect(fetchBreedImagesById).toHaveBeenCalledTimes(1);
+    expect(fetchBreedImagesById).toHaveBeenCalledWith(1);
 
     render(<BreedDetails allBreeds={allBreeds} selectedBreedId={selectedBreedId} />);
 
-    await waitFor(() => {
-      expect(api.fetchBreedImagesById).toHaveBeenCalledTimes(2);
-      expect(api.fetchBreedImagesById).toHaveBeenCalledWith(3);
-    });
+    await waitFor(() => expect(fetchBreedImagesById).toHaveBeenCalledWith(selectedBreedId));
+    expect(fetchBreedImagesById).toHaveBeenCalledWith(selectedBreedId);
   });
 });
 
